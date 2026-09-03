@@ -1,0 +1,8 @@
+# 1. 모든 파일 및 폴더 제외
+/*
+
+# 2. gitignore 파일 자체는 추적 유지
+!.gitignore
+
+# 3. index.html만 예외로 추적 허용
+!index.html
