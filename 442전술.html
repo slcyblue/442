@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>4-4-2 전술 운용 지침서 (세로형 모바일 슬라이드)</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #0b1120;
+    font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    color: #f8fafc;
+  }
+  .app-container {
+    width: 100%;
+    height: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #0f172a;
+  }
+  .slide-viewport {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+  .slide-track {
+    display: flex;
+    width: 1000%;
+    height: 100%;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .slide {
+    width: 10%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 65px 16px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+  .tag {
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+  .slide-index {
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+  }
+  h1 {
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 3px;
+    word-break: keep-all;
+    flex-shrink: 0;
+  }
+  .sub {
+    font-size: 12px;
+    color: #38bdf8;
+    margin-bottom: 10px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  .pitch-box {
+    background: #064e3b;
+    border: 1.5px solid #10b981;
+    border-radius: 8px;
+    padding: 10px 4px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    line-height: 1.35;
+    color: #ecfdf5;
+    text-align: center;
+    white-space: pre;
+    flex-shrink: 0;
+  }
+  .card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .card-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #38bdf8;
+    margin-bottom: 3px;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.45;
+    word-break: keep-all;
+  }
+  .flow-box {
+    background: #0369a1;
+    color: #ffffff;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.4;
+    word-break: break-all;
+    flex-shrink: 0;
+  }
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  li {
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.4;
+    position: relative;
+    padding-left: 12px;
+    word-break: keep-all;
+  }
+  li::before {
+    content: "•";
+    position: absolute;
+    left: 2px;
+    color: #38bdf8;
+    font-weight: bold;
+  }
+  .nav-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 52px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid #334155;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    z-index: 50;
+  }
+  .nav-btn {
+    background: #0284c7;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .nav-btn:disabled {
+    background: #334155;
+    color: #64748b;
+    cursor: not-allowed;
+  }
+  .dots {
+    display: flex;
+    gap: 4px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #475569;
+    transition: all 0.2s;
+  }
+  .dot.active {
+    width: 16px;
+    border-radius: 3px;
+    background: #38bdf8;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="slide-viewport" id="viewport">
+    <div class="slide-track" id="track">
+
+      <!-- SLIDE 1 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">TACTICAL MANUAL</span>
+          <span class="slide-index">01 / 10</span>
+        </div>
+        <h1>4-4-2 전술 운용 지침서</h1>
+        <div class="sub">공간 점유 및 유기적 전환 가이드</div>
+        <div class="content">
+          <div class="pitch-box">
+┌─────────────────────────────────┐
+│           [상대 골대]           │
+│                                 │
+│        [LFW]       [RFW]        │
+│                                 │
+│    [LM]   [LCM] [RCM]   [RM]    │
+│                                 │
+│    [LB]   [LCB] [RCB]   [RB]    │
+│                                 │
+│              [GK]               │
+└─────────────────────────────────┘</div>
+          <div class="card">
+            <div class="card-title">1. 정통 대칭 4-4-2 메커니즘</div>
+            <div class="card-desc">비대칭 편향 빌드업을 삭제하고 좌/우 균형과 신속한 반대 오픈을 지향합니다.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">2. 유기적 후방 3백 완성</div>
+            <div class="card-desc">한쪽 풀백 전진 시 반대 풀백이 중앙으로 좁혀 수비 안정성을 확보합니다.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">3. 4-4 두 줄 콤팩트 블록</div>
+            <div class="card-desc">중앙 킬패스 길목을 완전히 봉쇄하고 상대를 측면으로 몰아 압박합니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">PITCH DIVISION</span>
+          <span class="slide-index">02 / 10</span>
+        </div>
+        <h1>Zone 정의 및 필드 구분</h1>
+        <div class="sub">피치 6개 핵심 구역 체계</div>
+        <div class="content">
+          <div class="pitch-box">
+┌──────────┬──────────┬──────────┐
+│ Zone 1   │  Zone 2  │  Zone 1  │
+│(좌침투)  │ (중앙박스)│ (우침투)  │
+├──────────┼──────────┼──────────┤
+│ Zone 3   │  Zone 4  │  Zone 3  │
+│(좌터치)  │ (중앙엔진)│ (우터치)  │
+├──────────┼──────────┼──────────┤
+│ Zone 5   │  Zone 6  │  Zone 5  │
+│(좌풀백)  │ (최후방CB)│ (우풀백)  │
+└──────────┴──────────┴──────────┘</div>
+          <div class="card">
+            <div class="card-title">Zone 1 & 2 (공격 공간)</div>
+            <div class="card-desc">1번은 FW/풀백 침투 하프스페이스, 2번은 박스 안 마무리 코어 구역.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Zone 3 & 4 (미드필더 공간)</div>
+            <div class="card-desc">3번은 윙어 와이드 터치라인, 4번은 템포 조율 및 방향 전환 축.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Zone 5 & 6 (후방 수비 공간)</div>
+            <div class="card-desc">5번은 풀백 빌드업 기본 위치, 6번은 센터백 2명의 최후방 코어 에어리어.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">GENERAL CONCEPT</span>
+          <span class="slide-index">03 / 10</span>
+        </div>
+        <h1>전술 컨셉 & 대원칙</h1>
+        <div class="sub">빌드업 우선순위 및 밸런스</div>
+        <div class="content">
+          <div class="card-title" style="margin-top:2px;">빌드업 패스 우선순위</div>
+          <div class="flow-box">
+            Zone 2 (FW) ➔ Zone 4 (중미) ➔ Zone 3 (측면)<br>➔ Zone 6 (CB) ➔ Zone 5 (풀백)
+          </div>
+          <div class="card">
+            <div class="card-title">4-4 콤팩트 두 줄 수비 블록</div>
+            <ul>
+              <li>공-미-수 간격을 25m 이내로 좁혀 중앙 통로 봉쇄.</li>
+              <li>상대를 사이드로 몰아넣고 중앙 킬패스 원천 차단.</li>
+              <li>볼이 5번에 투입되는 순간 강한 압박 시작.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">대칭 3백 밸런스 원칙</div>
+            <div class="card-desc">한쪽 풀백이 Zone 3으로 전진하면, 반대편 풀백은 무조건 Zone 5 상단/안쪽으로 좁혀 센터백 2명과 3백을 구축합니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">FORWARD RULES</span>
+          <span class="slide-index">04 / 10</span>
+        </div>
+        <h1>공격수(FW) 세부 수칙</h1>
+        <div class="sub">침투 타이밍 및 상호 보완</div>
+        <div class="content">
+          <div class="card">
+            <div class="card-title">Zone 1 공간 침투 타이밍</div>
+            <ul>
+              <li>공이 Zone 3에 있고 소유자가 앞을 볼 때 바깥 동선 침투.</li>
+              <li>공이 3번에서 후방(5/6번)으로 리턴될 때 즉시 배후 침투.</li>
+              <li>공이 3번 상단에서 4번 하단으로 올 때 1번 공간 쇄도.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">투톱 상호 교차 동선</div>
+            <div class="card-desc">한 명이 Zone 1 바깥으로 벌리면, 다른 공격수는 반드시 Zone 2 중앙 박스를 채워 크로스 및 세컨볼에 대비합니다.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">센터백 소유 시 & 연계</div>
+            <ul>
+              <li>한 명은 Zone 2 하단으로 내려와 받아주는 연계 수행.</li>
+              <li>반대 공격수는 전방 침투로 상대 수비라인 밀어내기.</li>
+              <li>Zone 1 침투 후 무리한 돌파보다 키핑 후 컷백 연결.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">WINGER RULES</span>
+          <span class="slide-index">05 / 10</span>
+        </div>
+        <h1>윙어(WM) 세부 수칙</h1>
+        <div class="sub">와이드 공간 점유 및 볼 연결</div>
+        <div class="content">
+          <div class="card">
+            <div class="card-title">기본 위치 및 침투 원칙</div>
+            <ul>
+              <li>대부분 상황에서 Zone 3 터치라인을 밟고 와이드하게 대기.</li>
+              <li>볼이 Zone 4나 후방에 있을 때 무리하게 1번으로 앞서 들어가지 않음.</li>
+              <li>볼이 이미 1번/2번에 도달했을 때만 박스 침투 지원.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">상황별 위치 조정</div>
+            <ul>
+              <li><strong>센터백(Zone 6) 소유 시:</strong> 안쪽으로 좁혀 중원 수적 우위.</li>
+              <li><strong>Zone 1, 5번 볼 소유 시:</strong> 공보다 바깥쪽으로 벌려 패스각 확보.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">패스 정확성 원칙</div>
+            <ul>
+              <li>Zone 3에서 2번으로 무리한 패스 최소화 (턴오버 방지).</li>
+              <li>Zone 4(중미)로 넘길 때는 정확히 발밑으로 공급.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">MIDFIELDER RULES</span>
+          <span class="slide-index">06 / 10</span>
+        </div>
+        <h1>중앙 미드필더(CM) 수칙</h1>
+        <div class="sub">템포 조율 및 결대로 전환</div>
+        <div class="content">
+          <div class="card">
+            <div class="card-title">볼 수령 및 방향 전환</div>
+            <ul>
+              <li><strong>4번 하단 수령:</strong> 후방(5, 6번) 소유 시 내려와 연결점 형성.</li>
+              <li><strong>결대로 반대 전환:</strong> 측면에서 중앙으로 나온 볼은 막힌 신호이므로 지체 없이 반대 방향으로 회전.</li>
+              <li>볼 템포에 맞춰(천천히 오면 천천히, 빠르면 빠르게) 전개.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">전진 패스 판단 기준</div>
+            <div class="card-desc">Zone 3 상단 ➔ 4번 하단 전개 시 1번 침투 패스를 1순위 탐색하고 각이 없으면 반대로 오픈합니다.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">패스 원칙 & 소통</div>
+            <ul>
+              <li>전방(Zone 2)으로 띄우는 로빙 패스 지양, 땅볼 우선.</li>
+              <li>두 중미가 유기적으로 간격을 유지하며 시야 확보.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">FULLBACK RULES</span>
+          <span class="slide-index">07 / 10</span>
+        </div>
+        <h1>풀백(FB) 세부 수칙</h1>
+        <div class="sub">대칭 메커니즘 및 3백 전환</div>
+        <div class="content">
+          <div class="card">
+            <div class="card-title">대칭 3백 밸런스 원칙</div>
+            <div class="card-desc">반대편 풀백이 Zone 3으로 높게 오버래핑하면, 본인은 자동으로 Zone 5 상단/안쪽으로 좁혀 센터백 2명과 3백을 구축합니다.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">오버래핑 동선 & 스위칭</div>
+            <ul>
+              <li>볼이 Zone 3에 있을 때 확실하게 공보다 바깥 동선 침투.</li>
+              <li>앞선 윙어가 안쪽(Zone 1) 접고 들면 비어있는 3번 전진.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">리턴 볼 처리 & 수비 복귀</div>
+            <ul>
+              <li>Zone 3에서 5번으로 리턴 시 1번 앞 공간 빠른 얼리 크로스/롱패스.</li>
+              <li>수비 전환 시 최우선 플랫 4백 정렬 및 사이드 몰기.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">CENTERBACK RULES</span>
+          <span class="slide-index">08 / 10</span>
+        </div>
+        <h1>센터백(CB) 세부 수칙</h1>
+        <div class="sub">빌드업 배급 및 최후방 사수</div>
+        <div class="content">
+          <div class="card-title" style="margin-top:2px;">빌드업 판단 우선순위</div>
+          <div class="flow-box">
+            Zone 2(FW) ➔ Zone 4(중미) ➔ Zone 3(윙어)<br>➔ Zone 6(파트너 CB) ➔ Zone 5(풀백)
+          </div>
+          <div class="card">
+            <div class="card-title">리턴 시 다이렉트 타격</div>
+            <div class="card-desc">3번이나 4번에서 센터백으로 백패스가 돌아오면 전방 Zone 2나 1번 뒷공간으로 향하는 다이렉트 롱킥을 최우선 고려합니다.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">수비 및 전환 원칙</div>
+            <ul>
+              <li>측면 거쳐 돌아온 볼은 망설임 없이 반대 측면으로 오픈.</li>
+              <li>Zone 6 페널티 박스 앞 코어 구역 절대 방어.</li>
+              <li>최종 오프사이드 라인을 실시간으로 맞추며 간격 유지.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">CORE TAKEAWAYS</span>
+          <span class="slide-index">09 / 10</span>
+        </div>
+        <h1>핵심 수칙 리마인드</h1>
+        <div class="sub">경기 중 즉시 판단해야 할 4가지</div>
+        <div class="content">
+          <div class="card">
+            <div class="card-title">1. 바깥 동선 확보</div>
+            <div class="card-desc">공격수와 풀백은 동료 볼 소유 시 확실하게 공보다 바깥 동선으로 벌려 공간 겹침 방지.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">2. 리턴 = 뒷공간 타격</div>
+            <div class="card-desc">3/4번에서 후방(5/6번)으로 볼이 리턴되면 전방(1/2번)은 즉각 배후 침투, 수비진은 다이렉트 롱킥.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">3. 3백 밸런스 자동화</div>
+            <div class="card-desc">좌/우 상관없이 한쪽 풀백이 전진하면 반대 풀백은 무조건 안쪽으로 좁혀 후방 3백 형성.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">4. 전환 패스 우선</div>
+            <div class="card-desc">측면 압박을 풀고 중앙(Zone 4)으로 나온 볼은 지체 없이 반대편 넓은 공간으로 크게 열기.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 10 -->
+      <div class="slide">
+        <div class="slide-header">
+          <span class="tag">ATTACK SCENARIOS</span>
+          <span class="slide-index">10 / 10</span>
+        </div>
+        <h1>공격 전개 시나리오</h1>
+        <div class="sub">A & B 득점 패턴</div>
+        <div class="content">
+          <div class="card">
+            <div class="card-title">시나리오 A: 삼각 연계 & 컷백</div>
+            <div class="pitch-box">
+Zone 6(CB) ➔ Zone 5(풀백) ➔ Zone 3(윙어)
+                                  │ (리턴)
+Zone 2(FW 슛) 🠔 Zone 1(풀백 컷백) 🠔 Zone 4(중미)</div>
+            <ul>
+              <li>CB ➔ 풀백 ➔ Zone 3 윙어 전개.</li>
+              <li>윙어가 압박 피해 Zone 4 중미 하단 리턴.</li>
+              <li>풀백(or FW) 바깥 동선으로 1번 침투.</li>
+              <li>스루패스 투입 후 Zone 2 공격수에게 컷백 마무리.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">시나리오 B: 다이렉트 & 반대 전환</div>
+            <div class="pitch-box">
+Zone 3(측면 경합) ➔ Zone 6(CB 리턴)
+                         │
+      ┌──────────────────┴──────────────────┐
+      ▼                                     ▼
+Zone 1/2 (배후 침투 FW)               Zone 4/3 (반대편 윙/풀백)</div>
+            <ul>
+              <li>측면 경합 후 후방 Zone 6(CB)으로 리턴.</li>
+              <li>상대 쏠림 포착 후 반대 시야 확보.</li>
+              <li>뒷공간 다이렉트 롱패스 or 반대 오픈 후 크로스.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM CONTROLLER -->
+  <div class="nav-bar">
+    <button class="nav-btn" id="prevBtn" disabled>◀ 이전</button>
+    <div class="dots" id="dotContainer"></div>
+    <button class="nav-btn" id="nextBtn">다음 ▶</button>
+  </div>
+</div>
+
+<script>
+  let currentIdx = 0;
+  const totalSlides = 10;
+  const track = document.getElementById('track');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotContainer = document.getElementById('dotContainer');
+
+  // 인디케이터 도트 생성
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dotContainer.appendChild(dot);
+  }
+  const dots = document.querySelectorAll('.dot');
+
+  function updateSlide(idx) {
+    currentIdx = idx;
+    track.style.transform = `translateX(-${currentIdx * 10}%)`;
+    prevBtn.disabled = currentIdx === 0;
+    nextBtn.disabled = currentIdx === totalSlides - 1;
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentIdx > 0) updateSlide(currentIdx - 1);
+  });
+  nextBtn.addEventListener('click', () => {
+    if (currentIdx < totalSlides - 1) updateSlide(currentIdx + 1);
+  });
+
+  // 스마트폰 터치 스와이프 지원 (좌우 넘기기)
+  let startX = 0;
+  const viewport = document.getElementById('viewport');
+
+  viewport.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  viewport.addEventListener('touchend', e => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0 && currentIdx < totalSlides - 1) {
+        updateSlide(currentIdx + 1);
+      } else if (diff < 0 && currentIdx > 0) {
+        updateSlide(currentIdx - 1);
+      }
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>
