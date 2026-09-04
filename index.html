@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>4-4-2 전술 운용 지침서</title>
+<title>SC SERENDIPITY 4-4-2 전술 운용 지침서</title>
 <style>
   * {
     box-sizing: border-box;
@@ -15,9 +15,11 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #0b1120;
+    background-color: #080d1a;
     font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     color: #f8fafc;
+    user-select: none;
+    -webkit-user-select: none;
   }
   .app-container {
     width: 100%;
@@ -33,19 +35,21 @@
     flex: 1;
     overflow: hidden;
     position: relative;
+    touch-action: pan-y;
   }
   .slide-track {
     display: flex;
     width: 1500%;
     height: 100%;
-    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
   }
   .slide {
     width: 6.6666%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 16px 16px 65px 16px;
+    padding: 14px 14px 85px 14px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -54,16 +58,16 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #334155;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
     flex-shrink: 0;
   }
   .tag {
-    background: #0284c7;
-    color: #ffffff;
+    background: #facc15;
+    color: #0f172a;
     font-size: 11px;
-    font-weight: 700;
-    padding: 3px 8px;
+    font-weight: 800;
+    padding: 2px 8px;
     border-radius: 4px;
     letter-spacing: 0.5px;
   }
@@ -77,15 +81,15 @@
     font-weight: 800;
     color: #ffffff;
     line-height: 1.3;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     word-break: keep-all;
     flex-shrink: 0;
   }
   .sub {
     font-size: 12px;
-    color: #38bdf8;
-    margin-bottom: 10px;
-    font-weight: 500;
+    color: #fde047;
+    margin-bottom: 8px;
+    font-weight: 600;
     flex-shrink: 0;
   }
   .content {
@@ -94,19 +98,231 @@
     gap: 8px;
     flex: 1;
   }
-  .pitch-box {
+
+  /* =========================================
+     이미지 영역 40% ~ 60% 가변 비율 컨테이너
+     ========================================= */
+  /* 설명이 적당한 페이지: 55~60% 대형 비주얼 */
+  .visual-box-60 {
+    width: 100%;
+    height: 52vh;
+    min-height: 300px;
+    max-height: 420px;
     background: #064e3b;
-    border: 1.5px solid #10b981;
+    border: 2px solid #10b981;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    flex-shrink: 0;
+  }
+  .visual-box-60 img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* 설명이 많은 페이지: 40~45% 비주얼 */
+  .visual-box-40 {
+    width: 100%;
+    height: 38vh;
+    min-height: 220px;
+    max-height: 300px;
+    background: #064e3b;
+    border: 2px solid #10b981;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    flex-shrink: 0;
+  }
+  .visual-box-40 img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* 1페이지 전용 히어로 배너 (화면 절반 규모) */
+  .cover-hero {
+    background: radial-gradient(circle at 50% 30%, #1e293b 0%, #090e17 100%);
+    border: 2px solid rgba(250, 204, 21, 0.45);
+    border-radius: 20px;
+    padding: 20px 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+    flex-shrink: 0;
+  }
+  .cover-crest-wrap {
+    width: 155px;
+    height: 155px;
+    border-radius: 50%;
+    border: 4px solid #facc15;
+    background: #111827;
+    margin-bottom: 12px;
+    box-shadow: 0 0 35px rgba(250, 204, 21, 0.55);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .cover-crest-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cover-badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .cover-pill {
+    background: rgba(250, 204, 21, 0.15);
+    border: 1.5px solid rgba(250, 204, 21, 0.5);
+    color: #facc15;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  .cover-team-main {
+    font-size: 30px;
+    font-weight: 950;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 4px;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8);
+  }
+  .cover-team-main span {
+    color: #38bdf8;
+    background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .cover-sub-title {
+    font-size: 17px;
+    font-weight: 900;
+    color: #facc15;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+  }
+  .cover-desc {
+    font-size: 11.5px;
+    color: #94a3b8;
+    font-weight: 500;
+  }
+
+  /* 전술 스펙 3단 바 */
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    margin-top: 2px;
+  }
+  .spec-item {
+    background: #141f33;
+    border: 1px solid #23334d;
     border-radius: 8px;
-    padding: 10px 4px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    padding: 6px 4px;
+    text-align: center;
+  }
+  .spec-label {
+    font-size: 9.5px;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .spec-val {
+    font-size: 12px;
+    font-weight: 800;
+    color: #38bdf8;
+    margin-top: 1px;
+  }
+
+  /* 목차 카드 */
+  .toc-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .toc-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #facc15;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .toc-item {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .toc-num {
+    background: #0284c7;
+    color: #ffffff;
     font-size: 10px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .toc-name {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #e2e8f0;
+  }
+  .toc-desc {
+    font-size: 10.5px;
+    color: #94a3b8;
+    margin-left: auto;
+  }
+
+  /* 아스키 피치 다이어그램 */
+  .pitch-ascii {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 10.5px;
     line-height: 1.35;
     color: #ecfdf5;
     text-align: center;
     white-space: pre;
-    flex-shrink: 0;
+    padding: 8px;
   }
+
+  /* =========================================
+     복원된 본문 상세 카드 및 불릿 포인트 스타일
+     ========================================= */
   .card {
     background: #1e293b;
     border: 1px solid #334155;
@@ -158,17 +374,6 @@
     color: #38bdf8;
     font-weight: bold;
   }
-  .gif-placeholder {
-    background: #1e293b;
-    border: 1.5px dashed #475569;
-    border-radius: 8px;
-    padding: 14px 10px;
-    text-align: center;
-    color: #94a3b8;
-    font-size: 11.5px;
-    line-height: 1.4;
-    flex-shrink: 0;
-  }
   .lineup-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -189,40 +394,70 @@
     font-size: 11.5px;
     color: #e2e8f0;
   }
+
+  /* 네비게이션 컨트롤러 */
   .nav-bar {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 52px;
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(8px);
+    height: 72px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(11, 17, 32, 0.98) 100%);
+    backdrop-filter: blur(12px);
     border-top: 1px solid #334155;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 16px 8px 16px;
     z-index: 50;
   }
   .nav-btn {
-    background: #0284c7;
-    color: #ffffff;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 700;
+    background: linear-gradient(135deg, #fde047 0%, #eab308 100%);
+    color: #0f172a;
+    border: 1.5px solid #fef08a;
+    height: 46px;
+    padding: 0 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     cursor: pointer;
+    box-shadow: 0 4px 14px rgba(234, 179, 8, 0.45);
+    transition: all 0.15s ease;
+  }
+  .nav-btn:active {
+    transform: scale(0.94);
+    background: #ca8a04;
+    box-shadow: 0 2px 6px rgba(234, 179, 8, 0.3);
   }
   .nav-btn:disabled {
-    background: #334155;
-    color: #64748b;
+    background: #1e293b;
+    border-color: #334155;
+    color: #475569;
+    box-shadow: none;
     cursor: not-allowed;
+    transform: none;
+  }
+  .page-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
   }
   .page-num {
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 900;
+    color: #facc15;
+    letter-spacing: 0.5px;
+  }
+  .swipe-hint {
+    font-size: 10px;
     color: #94a3b8;
+    font-weight: 500;
   }
 </style>
 </head>
@@ -232,40 +467,72 @@
   <div class="slide-viewport" id="viewport">
     <div class="slide-track" id="track">
 
-      <!-- SLIDE 1: 표지 및 목차 -->
       <div class="slide">
         <div class="slide-header">
-          <span class="tag">TACTICAL MANUAL</span>
+          <span class="tag">SC SERENDIPITY</span>
           <span class="slide-index">01 / 15</span>
         </div>
-        <h1>4-4-2 전술 운용 지침서</h1>
-        <div class="sub">공간 점유 및 유기적 전환 가이드</div>
+        
         <div class="content">
-          <div class="pitch-box">
-┌─────────────────────────────────┐
-│           [상대 골대]           │
-│                                 │
-│        [LFW]       [RFW]        │
-│                                 │
-│    [LM]   [LCM] [RCM]   [RM]    │
-│                                 │
-│    [LB]   [LCB] [RCB]   [RB]    │
-│                                 │
-│              [GK]               │
-└─────────────────────────────────┘</div>
-          <div class="card">
-            <div class="card-title">전술 설명서 목차</div>
-            <ul>
-              <li><strong>Part 1. 개념:</strong> Zone 정의 & 수비/공격 대원칙</li>
-              <li><strong>Part 2. 수칙:</strong> 포지션별 행동 지침 (CB/FB/CM/WM/FW)</li>
-              <li><strong>Part 3. 실전:</strong> 빌드업 시나리오 (1 & 2)</li>
-              <li><strong>Part 4. 실행:</strong> 이번주 중점 목표 & 예상 라인업</li>
-            </ul>
+          <div class="cover-hero">
+            <div class="cover-crest-wrap">
+              <img src="logo.png" alt="SC SERENDIPITY 2009 로고" onerror="this.src='https://via.placeholder.com/300/1e293b/facc15?text=SERENDIPITY'">
+            </div>
+            <div class="cover-badge-row">
+              <span class="cover-pill">SINCE 2009</span>
+              <span class="cover-pill">MATCH TACTICS</span>
+            </div>
+            <div class="cover-team-main">SC <span>SERENDIPITY</span></div>
+            <div class="cover-sub-title">4-4-2 전술 운용 가이드</div>
+            <div class="cover-desc">공간 점유 및 유기적 전환을 위한 필드 매뉴얼</div>
+          </div>
+
+          <div class="spec-grid">
+            <div class="spec-item">
+              <div class="spec-label">포메이션</div>
+              <div class="spec-val">4-4-2 대칭</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-label">구역 분할</div>
+              <div class="spec-val">ZONE 1 ~ 6</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-label">빌드업 전환</div>
+              <div class="spec-val">유기적 3백</div>
+            </div>
+          </div>
+
+          <div class="toc-card">
+            <div class="toc-header">
+              <span class="toc-title">📋 전술 가이드 구성</span>
+              <span style="font-size:11px; color:#38bdf8; font-weight:700;">15 SLIDES</span>
+            </div>
+            <div class="toc-list">
+              <div class="toc-item">
+                <span class="toc-num">01</span>
+                <span class="toc-name">핵심 개념</span>
+                <span class="toc-desc">Zone 정의 & 대원칙</span>
+              </div>
+              <div class="toc-item">
+                <span class="toc-num">02</span>
+                <span class="toc-name">포지션별 수칙</span>
+                <span class="toc-desc">CB · FB · CM · WM · FW</span>
+              </div>
+              <div class="toc-item">
+                <span class="toc-num">03</span>
+                <span class="toc-name">빌드업 시나리오</span>
+                <span class="toc-desc">패스 전개 1번 & 2번</span>
+              </div>
+              <div class="toc-item">
+                <span class="toc-num">04</span>
+                <span class="toc-name">매치 준비</span>
+                <span class="toc-desc">중점 목표 & 예상 라인업</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- SLIDE 2: Zone 개념 설명 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">PITCH DIVISION</span>
@@ -274,17 +541,9 @@
         <h1>Zone 개념 정의 (1~6구역)</h1>
         <div class="sub">피치 6개 전술 구역 체계</div>
         <div class="content">
-          <div class="pitch-box">
-┌──────────┬──────────┬──────────┐
-│ Zone 1   │  Zone 2  │  Zone 1  │
-│(좌침투)  │ (중앙박스)│ (우침투)  │
-├──────────┼──────────┼──────────┤
-│ Zone 3   │  Zone 4  │  Zone 3  │
-│(좌터치)  │ (중앙엔진)│ (우터치)  │
-├──────────┼──────────┼──────────┤
-│ Zone 5   │  Zone 6  │  Zone 5  │
-│(좌풀백)  │ (최후방CB)│ (우풀백)  │
-└──────────┴──────────┴──────────┘</div>
+          <div class="visual-box-60">
+            <img src="zone.jpg" alt="피치 6개 구역 분할도" onerror="this.src='https://via.placeholder.com/400x500/064e3b/ecfdf5?text=ZONE+1-6+PITCH+MAP'">
+          </div>
           <div class="card">
             <div class="card-title">공격/미드필더/수비 구역</div>
             <ul>
@@ -299,7 +558,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 3: 전술 컨셉 (수비) -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">DEFENSE CONCEPT</span>
@@ -308,6 +566,20 @@
         <h1>수비 컨셉: 4-4 콤팩트 블록</h1>
         <div class="sub">두 줄 수비 유지 및 중앙 통로 차단</div>
         <div class="content">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
+┌─────────────────────────────────┐
+│           [상대 골대]           │
+│                                 │
+│        [FW]         [FW]        │
+│    ═════════════════════════    │
+│    [LM]   [CM]   [CM]   [RM]    │
+│    ═════════════════════════    │
+│    [LB]   [CB]   [CB]   [RB]    │
+│              [GK]               │
+└─────────────────────────────────┘
+* 4-4 콤팩트 두 줄 블록 (라인 간격 25m 유지)</div>
+          </div>
           <div class="card">
             <div class="card-title">두 줄 콤팩트 수비 대형</div>
             <div class="card-desc">무리하게 뛰어나가 볼을 뺏으려 하지 않고, 4백과 4미들의 일자 대형을 유지하며 간격을 좁혀 상대 패스 길목을 봉쇄합니다.</div>
@@ -323,7 +595,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 4: 수비 특이사항 및 핵심 사항 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">DEFENSE FOCUS</span>
@@ -332,9 +603,8 @@
         <h1>수비 핵심 사항 & 압박 기준점</h1>
         <div class="sub">본격 압박 타이밍 및 라인 간격</div>
         <div class="content">
-          <div class="gif-placeholder">
-            [ 전술 애니메이션 / GIF 자리 ]<br>
-            <span style="color:#38bdf8; font-size:11px;">수비 대형 유지 및 5번 구역 진입 시 압박 모션</span>
+          <div class="visual-box-60">
+            <img src="slide4_def.gif" alt="수비 대형 압박 모션 GIF" onerror="this.src='https://via.placeholder.com/400x500/1e293b/facc15?text=DEFENSE+PRESSING+GIF'">
           </div>
           <div class="card">
             <div class="card-title">Zone 5 진입 시 본격 압박</div>
@@ -350,7 +620,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 5: 전술 컨셉 (공격) -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">ATTACK CONCEPT</span>
@@ -359,6 +628,17 @@
         <h1>공격 컨셉: 정통 4-4-2 & 3백</h1>
         <div class="sub">대칭 빌드업과 유기적 전환</div>
         <div class="content">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
+┌─────────────────────────────────┐
+│             [LFW]               │
+│                                 │
+│  [LB 전진] ➔ ➔ [Zone 3 점유]   │
+│                                 │
+│      [LCB]    [RCB]    [RB]     │
+│      └─────── 3백 전환 ───────┘ │
+└─────────────────────────────────┘</div>
+          </div>
           <div class="card-title" style="margin-top:2px;">빌드업 패스 우선순위</div>
           <div class="flow-box">
             Zone 2 (FW) ➔ Zone 4 (중미) ➔ Zone 3 (측면)<br>➔ Zone 6 (CB) ➔ Zone 5 (풀백)
@@ -374,7 +654,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 6: 공격 특이사항 및 핵심 사항 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">ATTACK FOCUS</span>
@@ -383,9 +662,8 @@
         <h1>공격 핵심 사항 & 패스 원칙</h1>
         <div class="sub">바깥 동선 및 결대로 반대 전환</div>
         <div class="content">
-          <div class="gif-placeholder">
-            [ 전술 애니메이션 / GIF 자리 ]<br>
-            <span style="color:#38bdf8; font-size:11px;">윙 to 윙 결대로 반대 방향 전환 애니메이션</span>
+          <div class="visual-box-60">
+            <img src="slide6_att.gif" alt="윙 to 윙 결대로 반대 전환 GIF" onerror="this.src='https://via.placeholder.com/400x500/1e293b/38bdf8?text=SWITCHING+PLAY+GIF'">
           </div>
           <div class="card">
             <div class="card-title">공보다 바깥 동선 원칙</div>
@@ -398,7 +676,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 7: 센터백(CB) 포지션 설명 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">POSITION: CB</span>
@@ -407,6 +684,14 @@
         <h1>센터백(CB) 지침</h1>
         <div class="sub">빌드업 배급 및 최후방 코어 수호</div>
         <div class="content">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
+[Zone 6 최후방 센터백 코어]
+│
+├─> 1순위: 전방 FW(Zone 2) 종패스
+├─> 2순위: 중미(Zone 4) 삼각 연결
+└─> 리턴 볼 수령 시: 전방 뒷공간 다이렉트 롱킥!</div>
+          </div>
           <div class="card">
             <div class="card-title">빌드업 패스 판단 순서</div>
             <div class="card-desc">Zone 2 (FW) ➔ Zone 4 (중미) ➔ Zone 3 (측면) ➔ Zone 6 (파트너 CB) ➔ Zone 5 (풀백) 순으로 탐색.</div>
@@ -426,7 +711,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 8: 풀백(FB) 포지션 설명 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">POSITION: FB</span>
@@ -435,6 +719,12 @@
         <h1>풀백(FB) 지침</h1>
         <div class="sub">대칭 메커니즘 및 3백 전환</div>
         <div class="content">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
+[풀백 오버래핑 & 3백 스위칭]
+오버래핑 풀백: 공보다 바깥 동선으로 3번/1번 전진
+반대편 풀백: 5번 안쪽으로 좁혀 센터백 2명과 3백 구축</div>
+          </div>
           <div class="card">
             <div class="card-title">대칭적 3백 형성 (핵심)</div>
             <div class="card-desc">반대편 풀백이 3번으로 올라가면, 본인은 무조건 5번 상단/안쪽으로 좁혀 센터백 2명과 함께 3백을 구축합니다.</div>
@@ -453,7 +743,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 9: 중앙 미드필더(CM) 포지션 설명 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">POSITION: CM</span>
@@ -462,6 +751,12 @@
         <h1>중앙 미드필더(CM) 지침</h1>
         <div class="sub">템포 조율 및 결대로 반대 전환</div>
         <div class="content">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
+[Zone 4 중앙 엔진 템포 조율]
+후방 소유 시 ➔ 4번 하단으로 내려와 삼각 대형 형성
+측면 리턴 시 ➔ 결대로 반대편 넓은 공간 오픈</div>
+          </div>
           <div class="card">
             <div class="card-title">4번 하단 수령 & 삼각 대형</div>
             <div class="card-desc">볼이 후방(5, 6번)에 있을 때 4번 하단으로 내려와 안전한 삼각 대형을 형성하고 볼을 받아줍니다.</div>
@@ -480,7 +775,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 10: 윙어(WM) 포지션 설명 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">POSITION: WM</span>
@@ -489,6 +783,12 @@
         <h1>윙어(WM) 지침</h1>
         <div class="sub">와이드 공간 점유 및 볼 배급</div>
         <div class="content">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
+[Zone 3 와이드 터치라인 점유]
+기본: 3번 터치라인을 밟고 와이드하게 대기
+침투: 공이 이미 1번/2번에 도달했을 때만 박스 쇄도</div>
+          </div>
           <div class="card">
             <div class="card-title">기본 포지셔닝 (Zone 3)</div>
             <div class="card-desc">대부분의 상황에서 3번 터치라인을 밟고 대기하며, 볼이 후방에 있을 때 성급하게 1번으로 올라가지 않습니다.</div>
@@ -511,7 +811,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 11: 최전방 공격수(FW) 포지션 설명 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">POSITION: FW</span>
@@ -520,6 +819,12 @@
         <h1>공격수(FW) 지침</h1>
         <div class="sub">침투 타이밍 및 상호 교차 움직임</div>
         <div class="content">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
+[투톱 상호 보완 교차 동선]
+한 명: 공보다 바깥 동선으로 Zone 1 하프스페이스 쇄도
+다른 한 명: Zone 2 중앙 박스를 채워 마무리 대비</div>
+          </div>
           <div class="card">
             <div class="card-title">Zone 1 공간 침투 타이밍</div>
             <ul>
@@ -543,7 +848,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 12: 빌드업 시나리오 1번 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">SCENARIO 1</span>
@@ -552,15 +856,17 @@
         <h1>빌드업 시나리오 1</h1>
         <div class="sub">측면 전개 ➔ 1번 롱킥 ➔ 컷백 마무리</div>
         <div class="content">
-          <div class="flow-box">
-            CB ➔ CM ➔ 윙어 ➔ 윙백(풀백) ➔ 1번 롱킥 ➔ 공격수 소유 & 지연 ➔ 윙백/중미 지원 ➔ 컷백 마무리
-          </div>
-          <div class="pitch-box">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
 [Zone 6 센터백] ──> [Zone 4 중미] ──> [Zone 3 윙어]
                                            │ (리턴)
 [Zone 2 컷백 슛] <── [Zone 1 공격수 소유] <── [Zone 5 윙백 롱킥]
         ▲                     │
         └─── (지원) ◀─────────┘ (윙백/중미 연계)</div>
+          </div>
+          <div class="flow-box">
+            CB ➔ CM ➔ 윙어 ➔ 윙백(풀백) ➔ 1번 롱킥 ➔ 공격수 소유 & 지연 ➔ 윙백/중미 지원 ➔ 컷백 마무리
+          </div>
           <div class="card">
             <div class="card-title">전개 상세 단계</div>
             <ul>
@@ -574,7 +880,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 13: 빌드업 시나리오 2번 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">SCENARIO 2</span>
@@ -583,10 +888,8 @@
         <h1>빌드업 시나리오 2</h1>
         <div class="sub">중미 리턴 ➔ 반대 전환 ➔ 크로스 마무리</div>
         <div class="content">
-          <div class="flow-box">
-            CB ➔ CM ➔ 윙어 ➔ CM 리턴 ➔ 반대 전환 ➔ 반대 윙어&풀백 전진 ➔ 윙어 연결 ➔ 크로스 마무리
-          </div>
-          <div class="pitch-box">
+          <div class="visual-box-40">
+            <div class="pitch-ascii">
 [Zone 3 우측 윙어] ──> [Zone 4 중미] (반대 전환 오픈)
                              │
       ┌──────────────────────┴──────────────────────┐
@@ -594,6 +897,10 @@
 [Zone 3 좌측 윙어 전진] <── [Zone 5 좌측 풀백 전진]
       │
       └──> [Zone 2 중앙 박스 크로스 ➔ FW 헤더/슈팅 마무리]</div>
+          </div>
+          <div class="flow-box">
+            CB ➔ CM ➔ 윙어 ➔ CM 리턴 ➔ 반대 전환 ➔ 반대 윙어&풀백 전진 ➔ 윙어 연결 ➔ 크로스 마무리
+          </div>
           <div class="card">
             <div class="card-title">전개 상세 단계</div>
             <ul>
@@ -606,7 +913,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 14: 이번주 중점목표 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">FOCUS POINT</span>
@@ -640,7 +946,6 @@
         </div>
       </div>
 
-      <!-- SLIDE 15: 이번주 예상 라인업 -->
       <div class="slide">
         <div class="slide-header">
           <span class="tag">ROSTER</span>
@@ -698,10 +1003,12 @@
     </div>
   </div>
 
-  <!-- BOTTOM CONTROLLER -->
   <div class="nav-bar">
     <button class="nav-btn" id="prevBtn" disabled>◀ 이전</button>
-    <div class="page-num" id="pageNum">01 / 15</div>
+    <div class="page-box">
+      <span class="page-num" id="pageNum">01 / 15</span>
+      <span class="swipe-hint">좌우 스와이프 가능</span>
+    </div>
     <button class="nav-btn" id="nextBtn">다음 ▶</button>
   </div>
 </div>
@@ -713,15 +1020,22 @@
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const pageNum = document.getElementById('pageNum');
+  const viewport = document.getElementById('viewport');
 
   function updateSlide(idx) {
-    currentIdx = idx;
+    currentIdx = Math.max(0, Math.min(idx, totalSlides - 1));
     track.style.transform = `translateX(-${currentIdx * 6.6666}%)`;
     prevBtn.disabled = currentIdx === 0;
     nextBtn.disabled = currentIdx === totalSlides - 1;
     const curStr = String(currentIdx + 1).padStart(2, '0');
     const totStr = String(totalSlides).padStart(2, '0');
     pageNum.textContent = `${curStr} / ${totStr}`;
+    
+    // 슬라이드 전환 시 내부 스크롤 상단 리셋
+    const slides = document.querySelectorAll('.slide');
+    if (slides[currentIdx]) {
+      slides[currentIdx].scrollTop = 0;
+    }
   }
 
   prevBtn.addEventListener('click', () => {
@@ -731,25 +1045,44 @@
     if (currentIdx < totalSlides - 1) updateSlide(currentIdx + 1);
   });
 
-  // 모바일 터치 스와이프 지원
-  let startX = 0;
-  const viewport = document.getElementById('viewport');
+  // 터치 스와이프 제스처
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
 
   viewport.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
   viewport.addEventListener('touchend', e => {
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0 && currentIdx < totalSlides - 1) {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipeGesture();
+  }, { passive: true });
+
+  function handleSwipeGesture() {
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 35) {
+      if (deltaX < 0 && currentIdx < totalSlides - 1) {
         updateSlide(currentIdx + 1);
-      } else if (diff < 0 && currentIdx > 0) {
+      } else if (deltaX > 0 && currentIdx > 0) {
         updateSlide(currentIdx - 1);
       }
     }
-  }, { passive: true });
+  }
+
+  // PC 키보드 제어
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+      if (currentIdx < totalSlides - 1) updateSlide(currentIdx + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      if (currentIdx > 0) updateSlide(currentIdx - 1);
+    }
+  });
 </script>
 </body>
 </html>
